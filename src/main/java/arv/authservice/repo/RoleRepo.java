@@ -1,6 +1,6 @@
 package arv.authservice.repo;
 
-import arv.authservice.model.Role;
+import arv.authservice.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @since 10.04.2022
  */
 public interface RoleRepo extends JpaRepository<Role, Long> {
+    Role findByName(String name);
 }

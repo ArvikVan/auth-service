@@ -1,14 +1,19 @@
 package arv.authservice.service;
 
-import arv.authservice.model.User;
+import arv.authservice.domain.User;
+import arv.authservice.repo.RoleRepo;
 import arv.authservice.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author ArvikV
@@ -16,18 +21,27 @@ import java.util.Collections;
  * @since 10.04.2022
  * Валидируем юзернейм
  */
+@Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class UserDetailServiceImp implements UserDetailsService {
     private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            log.error("user not found");
+            throw new UsernameNotFoundException("user not found");
+        } else {
+            log.info("user found in db: {}", username);
         }
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), Collections.emptyList());
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 }

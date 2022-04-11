@@ -1,6 +1,6 @@
 package arv.authservice.repo;
 
-import arv.authservice.model.User;
+import arv.authservice.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
