@@ -45,9 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * если это нужно сделать в самом коде
      * CustomAuthentificationFilter customAuthentificationFilter = new CustomAuthentificationFilter(authenticationManagerBean());
      * customAuthentificationFilter.setFilterProcessesUrl("/login");
-     * .addFilter(new CustomAuthentificationFilter(authenticationManagerBean()))
-     * .addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class); - указать
-     * для применения фильтров (игра с токенами)
+     - указать для применения фильтров (игра с токенами)
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -69,7 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .csrf()
-                .disable();
+                .disable()
+                .addFilter(new CustomAuthentificationFilter(authenticationManagerBean()))
+                .addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);;
     }
 
     @Bean
