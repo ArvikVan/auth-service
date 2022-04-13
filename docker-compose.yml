@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=Arvijka
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=auth-service
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./db/auth-service/data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5433:5433"
+    restart: always
+  app:
+    image: auth-service
+    container_name: auth-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5433/auth-service
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Arvijka
+    ports:
+      - "127.0.0.1:8083:8083"
+    depends_on:
+      - db
