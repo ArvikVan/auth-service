@@ -68,8 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                .addFilter(new CustomAuthentificationFilter(authenticationManagerBean()))
-                .addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);;
+                /*.addFilter(new CustomAuthentificationFilter(authenticationManagerBean()))
+                .addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);*/;
     }
 
     @Bean
