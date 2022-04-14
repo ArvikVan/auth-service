@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
                 .permitAll()
+                .and().formLogin().defaultSuccessUrl("http://localhost:8001/", true)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout=true")
@@ -68,8 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                /*.addFilter(new CustomAuthentificationFilter(authenticationManagerBean()))
-                .addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);*/;
+                .addFilter(new CustomAuthentificationFilter(authenticationManagerBean()))
+                .addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
