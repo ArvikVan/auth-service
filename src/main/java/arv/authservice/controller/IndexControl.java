@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @version 1.0
  * @since 14.04.2022
  */
-@RequestMapping("/auth-service")
+/*@RequestMapping("/auth-service")
 public class IndexControl {
 
     @RequestMapping("/")
     public String fetMainPage() {
         return "index";
     }
-}
+}*/
